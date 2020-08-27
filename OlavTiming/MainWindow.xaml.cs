@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GalaSoft.MvvmLight.Messaging;
+using OlavTiming.Messages.WindowOpener;
+using OlavTiming.Pages;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace OlavTiming
 {
@@ -20,9 +11,22 @@ namespace OlavTiming
     /// </summary>
     public partial class MainWindow : Window
     {
+        private StartScreenPage _startScreenPage;
+        private RunningTaskPage _runningTaskPage;
+
+        public StartScreenPage StartScreenPage => _startScreenPage ??= new StartScreenPage();
+        public RunningTaskPage RunningTaskPage => _runningTaskPage ??= new RunningTaskPage();
+
         public MainWindow()
         {
             InitializeComponent();
+            MainWindowFrame.NavigationService.Navigate(StartScreenPage);
+            Messenger.Default.Register<OpenRunningTaskPageMessage>(this, OpenNewTask);
+        }
+
+        private void OpenNewTask(OpenRunningTaskPageMessage obj)
+        {
+            MainWindowFrame.NavigationService.Navigate(RunningTaskPage);
         }
     }
 }

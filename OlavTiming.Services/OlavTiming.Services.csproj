@@ -4,4 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="5.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OlavTiming.Models\OlavTiming.Models.csproj" />
+    <ProjectReference Include="..\OlavTimingRepositories\OlavTiming.Repositories.csproj" />
+  </ItemGroup>
+
 </Project>
