@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace OlavTiming.Models
 {
@@ -9,5 +11,8 @@ namespace OlavTiming.Models
         [Required]
         public string Name { get; set; }
         public IList<Timeframe> Timeframes { get; set; }
+        public DateTime Start { get => Timeframes.Min(t => t.Start); }
+        public DateTime End { get => Timeframes.Max(t => t.End); }
+        
     }
 }

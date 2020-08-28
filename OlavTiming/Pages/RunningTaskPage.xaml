@@ -16,8 +16,14 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel>
+            <Label Content="Task is paused"
+                   Foreground="Red"
+                   FontStyle="Oblique"
+                   FontSize="50"
+                   Visibility="{Binding PauseLabel}"/>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Task: "
                        Width="50"/>
@@ -32,17 +38,45 @@
             <StackPanel Orientation="Horizontal">
                 <Label Content="End: "
                        Width="50"/>
-                <Label/>
+                <Label Content="{Binding End}"/>
             </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+        <ListView Grid.Column="1" 
+                  ItemsSource="{Binding AllTasks}">
+            <ListView.View>
+                <GridView AllowsColumnReorder="False" 
+                          ColumnHeaderToolTip="Name">
+                    <GridViewColumn Width="150"
+                                    DisplayMemberBinding="{Binding Name}">
+                        <GridViewColumnHeader Content="Name"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="60"
+                                    DisplayMemberBinding="{Binding Start, StringFormat='HH:mm:ss' }">
+                        <GridViewColumnHeader Content="Start"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="60"
+                                    DisplayMemberBinding="{Binding End, StringFormat='HH:mm:ss'}">
+                        <GridViewColumnHeader Content="End"/>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.Row="1" 
+                    Grid.ColumnSpan="2"
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Center">
             <Button Content="Start"
                     Width="100"
-                    Command="{Binding NewTaskCommand}"/>
+                    Command="{Binding NewTaskCommand}"
+                    IsEnabled="{Binding StartButtonEnabled}"/>
             <Button Content="Pause"
-                    Width="100"/>
+                    Width="100"
+                    Command="{Binding PauseTaskCommand}"
+                    IsEnabled="{Binding PauseButtonEnabled}"/>
             <Button Content="End"
-                    Width="100"/>
+                    Width="100"
+                    Command="{Binding EndTaskCommand}"
+                    IsEnabled="{Binding EndButtonEnabled}"/>
         </StackPanel>
     </Grid>
 </Page>
