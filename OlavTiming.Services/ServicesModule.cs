@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using OlavTiming.Repositories;
 
 namespace OlavTiming.Services
 {
@@ -6,6 +7,8 @@ namespace OlavTiming.Services
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterModule<RepositoriesModule>();
+
             builder.RegisterType<UserTaskService>().AsImplementedInterfaces();
         }
     }

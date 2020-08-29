@@ -129,13 +129,15 @@ namespace OlavTiming.ViewModels
             PauseButtonEnabled = false;
             EndButtonEnabled = false;
             PauseLabel = Visibility.Collapsed;
-            AllTasks = new ObservableCollection<UserTask>();
+            AllTasks = new ObservableCollection<UserTask>(_userTaskService.Get());
         }
 
         private void NewTask()
         {
             CurrentUserTask = _userTaskService.Start(UserTaskName);
             UpdateView(false, true, true);
+            AllTasks.Add(CurrentUserTask);
+            _userTaskService.Create(AllTasks);
         }
 
         private void PauseTask()
@@ -149,13 +151,14 @@ namespace OlavTiming.ViewModels
             {
                 PauseLabel = Visibility.Visible;
             }
+            _userTaskService.Create(AllTasks);
         }
 
         private void EndTask()
         {
             CurrentUserTask = _userTaskService.End();
             UpdateView(true, false, false);
-            AllTasks.Add(CurrentUserTask);
+            AllTasks = new ObservableCollection<UserTask>(_userTaskService.Create(AllTasks));
         }
 
         private void UpdateView(bool start, bool pause, bool end)

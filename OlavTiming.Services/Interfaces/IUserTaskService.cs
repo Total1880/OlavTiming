@@ -1,4 +1,5 @@
 ﻿using OlavTiming.Models;
+using System.Collections.Generic;
 
 namespace OlavTiming.Services.Interfaces
 {
@@ -7,5 +8,7 @@ namespace OlavTiming.Services.Interfaces
         UserTask Start(string name);
         UserTask Pause();
         UserTask End();
+        IList<UserTask> Create(IList<UserTask> userTask);
+        IList<UserTask> Get();
     }
 }
