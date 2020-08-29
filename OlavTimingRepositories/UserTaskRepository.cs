@@ -8,7 +8,7 @@ namespace OlavTiming.Repositories
 {
     public class UserTaskRepository : IRepository<UserTask>
     {
-        private readonly string path = @"c:\OlavTiming";
+        private readonly string path = @".\OlavTiming";
         private readonly string file = $"{DateTime.Today.Year}{DateTime.Today.Month}{DateTime.Today.Day}.xml";
 
         public UserTaskRepository()
@@ -58,6 +58,11 @@ namespace OlavTiming.Repositories
         }
 
         public IList<UserTask> Get()
+        {
+            return (Get(file));
+        }
+
+        public IList<UserTask> Get(string filename)
         {
             var UserTasksList = new List<UserTask>();
             var fileString = File.ReadAllText(Path.Combine(path, file));
