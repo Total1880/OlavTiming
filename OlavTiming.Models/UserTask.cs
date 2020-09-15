@@ -12,7 +12,19 @@ namespace OlavTiming.Models
         public string Name { get; set; }
         public IList<Timeframe> Timeframes { get; set; }
         public DateTime Start { get => Timeframes.Min(t => t.Start); }
-        public DateTime End { get => Timeframes.Max(t => t.End); }
-        
+        public DateTime End
+        {
+            get
+            {
+                if (Timeframes.Any(t => t.End == DateTime.MinValue))
+                {
+                    return DateTime.MinValue;
+                }
+                else
+                {
+                    return Timeframes.Max(t => t.End);
+                }
+            }
+        }        
     }
 }

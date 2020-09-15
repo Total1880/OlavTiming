@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:OlavTiming.Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="RunningTaskPage"
@@ -28,7 +29,8 @@
                 <Label Content="Task: "
                        Width="50"/>
                 <TextBox Width="300"
-                         Text="{Binding UserTaskName}"/>
+                         Text="{Binding UserTaskName}"
+                         IsEnabled="{Binding StartButtonEnabled}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Start: "
@@ -39,6 +41,16 @@
                 <Label Content="End: "
                        Width="50"/>
                 <Label Content="{Binding End}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Manual End: "
+                       Width="50"
+                       Visibility="{Binding ManualEndShow}"/>
+                <materialDesign:TimePicker Text="{Binding ManualEnd, StringFormat={}{0:hh:mm tt}}"
+                                           Visibility="{Binding ManualEndShow}"/>
+                <Button Content="Save"
+                        Command="{Binding ManualEndTaskCommand}"
+                        Visibility="{Binding ManualEndShow}"/>
             </StackPanel>
         </StackPanel>
         <ListView Grid.Column="1" 

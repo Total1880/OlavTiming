@@ -18,19 +18,23 @@ namespace OlavTiming.ViewModels
         private RelayCommand _newTaskCommand;
         private RelayCommand _pauseTaskCommand;
         private RelayCommand _endTaskCommand;
+        private RelayCommand _manualEndTaskCommand;
         private UserTask _currentUserTask;
         private string _userTaskName;
         private DateTime _start;
         private DateTime _end;
+        private DateTime _manualEnd;
         private bool _startButtonEnabled;
         private bool _pauseButtonEnabled;
         private bool _endButtonEnabled;
+        private Visibility _manualEndEnabled;
         private Visibility _pauseLabel;
         private ObservableCollection<UserTask> _allTasks;
 
         public RelayCommand NewTaskCommand => _newTaskCommand ??= new RelayCommand(NewTask);
         public RelayCommand PauseTaskCommand => _pauseTaskCommand ??= new RelayCommand(PauseTask);
         public RelayCommand EndTaskCommand => _endTaskCommand ??= new RelayCommand(EndTask);
+        public RelayCommand ManualEndTaskCommand => _manualEndTaskCommand ??= new RelayCommand(ManualEndTask);
 
         public UserTask CurrentUserTask
         {
@@ -72,6 +76,16 @@ namespace OlavTiming.ViewModels
             }
         }
 
+        public DateTime ManualEnd
+        {
+            get => _manualEnd;
+            set
+            {
+                _manualEnd = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public bool StartButtonEnabled
         {
             get => _startButtonEnabled;
@@ -98,6 +112,16 @@ namespace OlavTiming.ViewModels
             set
             {
                 _endButtonEnabled = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public Visibility ManualEndShow
+        {
+            get => _manualEndEnabled;
+            set
+            {
+                _manualEndEnabled = value;
                 RaisePropertyChanged();
             }
         }
@@ -129,7 +153,10 @@ namespace OlavTiming.ViewModels
             PauseButtonEnabled = false;
             EndButtonEnabled = false;
             PauseLabel = Visibility.Collapsed;
+            ManualEndShow = Visibility.Hidden;
             AllTasks = new ObservableCollection<UserTask>(_userTaskService.Get());
+            CheckUserTasks();
+            ManualEnd = DateTime.Now;
         }
 
         private void NewTask()
@@ -157,8 +184,32 @@ namespace OlavTiming.ViewModels
         private void EndTask()
         {
             CurrentUserTask = _userTaskService.End();
+
+            ResetView();
+        }
+
+        private void ManualEndTask()
+        {
+            if (CurrentUserTask.Timeframes.Max(u => u.Start) < ManualEnd)
+            {
+                CurrentUserTask = _userTaskService.End(ManualEnd);
+
+                ResetView();
+            }
+            else
+            {
+                MessageBox.Show("The end time needs to be later than " + CurrentUserTask.Timeframes.Max(u => u.Start));
+            }
+        }
+
+        private void ResetView()
+        {
             UpdateView(true, false, false);
             AllTasks = new ObservableCollection<UserTask>(_userTaskService.Create(AllTasks));
+            UserTaskName = string.Empty;
+            Start = DateTime.MinValue;
+            End = DateTime.MinValue;
+            ManualEndShow = Visibility.Hidden;
         }
 
         private void UpdateView(bool start, bool pause, bool end)
@@ -171,6 +222,23 @@ namespace OlavTiming.ViewModels
                 PauseButtonEnabled = pause;
                 EndButtonEnabled = end;
                 PauseLabel = Visibility.Collapsed;
+            }
+        }
+
+        private void CheckUserTasks()
+        {
+            if (AllTasks.Any(u => u.End == DateTime.MinValue))
+            {
+                CurrentUserTask = AllTasks.Where(u => u.End == DateTime.MinValue).FirstOrDefault();
+                
+                var result = MessageBox.Show("Your last task has not ended. Do you want to continue " + CurrentUserTask.Name + "? If no, you must enter a time manually.", "Last task did not complete", MessageBoxButton.YesNo);
+                UpdateView(false, true, true);
+                UserTaskName = CurrentUserTask.Name;
+
+                if (result == MessageBoxResult.No)
+                {
+                    ManualEndShow = Visibility.Visible;
+                }
             }
         }
     }

@@ -20,11 +20,16 @@ namespace OlavTiming.Services
 
         public UserTask End()
         {
+            return End(DateTime.Now);
+        }
+
+        public UserTask End(DateTime dateTime)
+        {
             SortTimeFrame();
 
             if (_userTask.Timeframes[_userTask.Timeframes.Count - 1].End == DateTime.MinValue)
             {
-                _userTask.Timeframes[_userTask.Timeframes.Count - 1].End = DateTime.Now;
+                _userTask.Timeframes[_userTask.Timeframes.Count - 1].End = dateTime;
             }
 
             return _userTask;
@@ -71,7 +76,14 @@ namespace OlavTiming.Services
 
         public IList<UserTask> Get()
         {
-            return _userTaskRepository.Get();
+            var tasks = _userTaskRepository.Get();
+
+            if (tasks.Any(u => u.End == DateTime.MinValue))
+            {
+                _userTask = tasks.Where(u => u.End == DateTime.MinValue).FirstOrDefault();
+            }
+
+            return tasks;
         }
 
         private void SortTimeFrame()
