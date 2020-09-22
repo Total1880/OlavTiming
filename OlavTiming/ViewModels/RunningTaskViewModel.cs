@@ -24,6 +24,7 @@ namespace OlavTiming.ViewModels
         private DateTime _start;
         private DateTime _end;
         private DateTime _manualEnd;
+        private DateTime _totalDayTime;
         private bool _startButtonEnabled;
         private bool _pauseButtonEnabled;
         private bool _endButtonEnabled;
@@ -82,6 +83,16 @@ namespace OlavTiming.ViewModels
             set
             {
                 _manualEnd = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public DateTime TotalDayTime
+        {
+            get => _totalDayTime;
+            set
+            {
+                _totalDayTime = value;
                 RaisePropertyChanged();
             }
         }
@@ -149,12 +160,21 @@ namespace OlavTiming.ViewModels
         public RunningTaskViewModel(IUserTaskService userTaskService)
         {
             _userTaskService = userTaskService;
-            StartButtonEnabled = true;
-            PauseButtonEnabled = false;
-            EndButtonEnabled = false;
+            //StartButtonEnabled = true;
+            //PauseButtonEnabled = false;
+            //EndButtonEnabled = false;
+
             PauseLabel = Visibility.Collapsed;
             ManualEndShow = Visibility.Hidden;
             AllTasks = new ObservableCollection<UserTask>(_userTaskService.Get());
+
+            //TotalDayTime = new DateTime();
+
+            //foreach (var item in AllTasks)
+            //{
+            //    TotalDayTime += (item.TotalTime - DateTime.MinValue);
+            //}
+
             CheckUserTasks();
             ManualEnd = DateTime.Now;
         }
@@ -214,14 +234,31 @@ namespace OlavTiming.ViewModels
 
         private void UpdateView(bool start, bool pause, bool end)
         {
+            StartButtonEnabled = start;
+            PauseButtonEnabled = pause;
+            EndButtonEnabled = end;
+
+            PauseLabel = Visibility.Collapsed;
+
+            if (AllTasks != null)
+            {
+                TotalDayTime = new DateTime();
+
+                foreach (var item in AllTasks)
+                {
+                    TotalDayTime += (item.TotalTime - DateTime.MinValue);
+                }
+            }
+
+            if (CurrentUserTask == null || CurrentUserTask.Timeframes == null)
+            {
+                return;
+            }
+
             if (CurrentUserTask.Timeframes.Any())
             {
                 Start = CurrentUserTask.Timeframes[0].Start;
                 End = CurrentUserTask.Timeframes[CurrentUserTask.Timeframes.Count - 1].End;
-                StartButtonEnabled = start;
-                PauseButtonEnabled = pause;
-                EndButtonEnabled = end;
-                PauseLabel = Visibility.Collapsed;
             }
         }
 
@@ -239,6 +276,10 @@ namespace OlavTiming.ViewModels
                 {
                     ManualEndShow = Visibility.Visible;
                 }
+            }
+            else
+            {
+                UpdateView(true, false, false);
             }
         }
     }

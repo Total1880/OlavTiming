@@ -25,6 +25,25 @@ namespace OlavTiming.Models
                     return Timeframes.Max(t => t.End);
                 }
             }
-        }        
+        }
+        public DateTime TotalTime
+        {
+            get
+            {
+                var totalTime = new DateTime();
+
+                foreach (var time in Timeframes)
+                {
+                    if (time.End == DateTime.MinValue)
+                    {
+                        continue;
+                    }
+
+                    totalTime += time.End - time.Start;
+                }
+
+                return totalTime;
+            }
+        }
     }
 }
