@@ -113,6 +113,11 @@ namespace OlavTiming.Repositories
             return UserTasksList;
         }
 
+        public string[] GetFiles()
+        {
+            return Directory.GetFiles(path);
+        }
+
         public UserTask Update(UserTask item)
         {
             throw new System.NotImplementedException();

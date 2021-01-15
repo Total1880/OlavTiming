@@ -96,5 +96,26 @@ namespace OlavTiming.Services
             string file = $"{date.Year}{date.Month}{date.Day}.xml";
             return _userTaskRepository.Get(file);
         }
+
+        public IList<DateTime> GetFiles()
+        {
+            string[] filenames = _userTaskRepository.GetFiles();
+            List<DateTime> fileList = new List<DateTime>();
+
+            foreach (var filename in filenames)
+            {
+                string datestring = filename.Substring(filename.IndexOf("2"), filename.IndexOf("x") - filename.IndexOf("2") - 1);
+                if (datestring.Length == 7)
+                {
+                    fileList.Add(new DateTime(int.Parse(datestring.Substring(0, 4)), int.Parse(datestring.Substring(4, 1)), int.Parse(datestring.Substring(5, 2))));
+                }
+                else
+                {
+                    fileList.Add(new DateTime(int.Parse(datestring.Substring(0, 4)), int.Parse(datestring.Substring(4, 2)), int.Parse(datestring.Substring(6, 2))));
+                }
+            }
+
+            return fileList;
+        }
     }
 }

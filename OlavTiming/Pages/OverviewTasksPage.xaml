@@ -14,11 +14,27 @@
             <RowDefinition Height="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0">
             <DatePicker Width=" 100"
                         SelectedDate="{Binding SelectedDate}"/>
         </StackPanel>
         <ListView Grid.Row="1"
+                  Grid.Column="0"
+                  ItemsSource="{Binding AvailableDates}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn>
+                        <GridViewColumnHeader Content="Available dates"/>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView Grid.Row="1"
+                  Grid.Column="1"
                   ItemsSource="{Binding AllTasks}">
             <ListView.View>
                 <GridView>

@@ -13,5 +13,6 @@ namespace OlavTiming.Services.Interfaces
         IList<UserTask> Create(IList<UserTask> userTask);
         IList<UserTask> Get();
         IList<UserTask> Get(DateTime date);
+        IList<DateTime> GetFiles();
     }
 }
