@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OlavTiming.Messages.WindowOpener
 {
-    class OpenOverviewTaskPageMessage
+    class OpenOverviewTasksPageMessage
     {
     }
 }

@@ -24,7 +24,7 @@ namespace OlavTiming
             InitializeComponent();
             MainWindowFrame.NavigationService.Navigate(StartScreenPage);
             Messenger.Default.Register<OpenRunningTaskPageMessage>(this, OpenNewTask);
-            Messenger.Default.Register<OpenOverviewTaskPageMessage>(this, OpenOverviewTasks);
+            Messenger.Default.Register<OpenOverviewTasksPageMessage>(this, OpenOverviewTasks);
         }
 
         private void OpenNewTask(OpenRunningTaskPageMessage obj)
@@ -32,7 +32,7 @@ namespace OlavTiming
             MainWindowFrame.NavigationService.Navigate(RunningTaskPage);
         }
 
-        private void OpenOverviewTasks(OpenOverviewTaskPageMessage obj)
+        private void OpenOverviewTasks(OpenOverviewTasksPageMessage obj)
         {
             MainWindowFrame.NavigationService.Navigate(OverviewTasksPage);
         }

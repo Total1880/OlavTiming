@@ -65,7 +65,7 @@ namespace OlavTiming.Repositories
         public IList<UserTask> Get(string filename)
         {
             var UserTasksList = new List<UserTask>();
-            var fileString = File.ReadAllText(Path.Combine(path, file));
+            var fileString = File.ReadAllText(Path.Combine(path, filename));
 
             if (string.IsNullOrWhiteSpace(fileString))
             {

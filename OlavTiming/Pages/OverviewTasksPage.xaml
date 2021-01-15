@@ -6,27 +6,36 @@
       xmlns:local="clr-namespace:OlavTiming.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="OverviewTasksPage">
+      Title="OverviewTasksPage"
+      DataContext="{Binding OverviewTasks, Source={StaticResource Locator}}">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <DatePicker Grid.Row="0"/>
-        <ListView Grid.Row="1">
+        <StackPanel Grid.Row="0">
+            <DatePicker Width=" 100"
+                        SelectedDate="{Binding SelectedDate}"/>
+        </StackPanel>
+        <ListView Grid.Row="1"
+                  ItemsSource="{Binding AllTasks}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="150">
+                    <GridViewColumn Width="150"
+                                    DisplayMemberBinding="{Binding Name}">
                         <GridViewColumnHeader Content="Name"/>
                     </GridViewColumn>
-                    <GridViewColumn Width="60">
+                    <GridViewColumn Width="60"
+                                    DisplayMemberBinding="{Binding Start, StringFormat='HH:mm:ss' }">
                         <GridViewColumnHeader Content="Start"/>
                     </GridViewColumn>
-                    <GridViewColumn Width="60">
+                    <GridViewColumn Width="60"
+                                    DisplayMemberBinding="{Binding End, StringFormat='HH:mm:ss'}">
                         <GridViewColumnHeader Content="End"/>
                     </GridViewColumn>
-                    <GridViewColumn Width="60">
+                    <GridViewColumn Width="60"
+                                    DisplayMemberBinding="{Binding TotalTime, StringFormat='HH:mm:ss'}">
                         <GridViewColumnHeader Content="Total"/>
                     </GridViewColumn>
                 </GridView>

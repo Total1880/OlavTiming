@@ -20,7 +20,7 @@ namespace OlavTiming.ViewModels
 
         private void OverviewTask()
         {
-            MessengerInstance.Send(new OpenOverviewTaskPageMessage());
+            MessengerInstance.Send(new OpenOverviewTasksPageMessage());
 
         }
     }

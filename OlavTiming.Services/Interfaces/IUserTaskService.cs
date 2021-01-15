@@ -12,5 +12,6 @@ namespace OlavTiming.Services.Interfaces
         UserTask End(DateTime dateTime);
         IList<UserTask> Create(IList<UserTask> userTask);
         IList<UserTask> Get();
+        IList<UserTask> Get(DateTime date);
     }
 }
