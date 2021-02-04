@@ -93,7 +93,7 @@ namespace OlavTiming.Services
 
         public IList<UserTask> Get(DateTime date)
         {
-            string file = $"{date.Year}{date.Month}{date.Day}.xml";
+            string file = $"{date:yyyyMMdd}.xml";
             return _userTaskRepository.Get(file);
         }
 
