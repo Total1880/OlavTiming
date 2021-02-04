@@ -105,14 +105,7 @@ namespace OlavTiming.Services
             foreach (var filename in filenames)
             {
                 string datestring = filename.Substring(filename.IndexOf("2"), filename.IndexOf("x") - filename.IndexOf("2") - 1);
-                if (datestring.Length == 7)
-                {
-                    fileList.Add(new DateTime(int.Parse(datestring.Substring(0, 4)), int.Parse(datestring.Substring(4, 1)), int.Parse(datestring.Substring(5, 2))));
-                }
-                else
-                {
-                    fileList.Add(new DateTime(int.Parse(datestring.Substring(0, 4)), int.Parse(datestring.Substring(4, 2)), int.Parse(datestring.Substring(6, 2))));
-                }
+                fileList.Add(new DateTime(int.Parse(datestring.Substring(0, 4)), int.Parse(datestring.Substring(4, 2)), int.Parse(datestring.Substring(6, 2))));
             }
 
             return fileList;

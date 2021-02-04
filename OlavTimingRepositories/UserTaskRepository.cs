@@ -9,7 +9,7 @@ namespace OlavTiming.Repositories
     public class UserTaskRepository : IRepository<UserTask>
     {
         private readonly string path = @".\OlavTiming";
-        private readonly string file = $"{DateTime.Today.Year}{DateTime.Today.Month}{DateTime.Today.Day}.xml";
+        private readonly string file = $"{DateTime.Today:yyyyMMdd}.xml";
 
         public UserTaskRepository()
         {
