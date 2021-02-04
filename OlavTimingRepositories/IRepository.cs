@@ -7,6 +7,7 @@ namespace OlavTiming.Repositories
         IList<T> Create(IList<T> itemList);
         IList<T> Get();
         IList<T> Get(string filename);
+        string[] GetFiles();
         T Update(T item);
         T Delete(int id);
     }

@@ -16,11 +16,13 @@ namespace OlavTiming
 
             builder.RegisterType<StartScreenViewModel>().SingleInstance();
             builder.RegisterType<RunningTaskViewModel>().SingleInstance();
+            builder.RegisterType<OverviewTasksViewModel>().SingleInstance();
 
             _container = builder.Build();
         }
 
         public StartScreenViewModel StartScreen => _container.Resolve<StartScreenViewModel>();
         public RunningTaskViewModel RunningTask => _container.Resolve<RunningTaskViewModel>();
+        public OverviewTasksViewModel OverviewTasks => _container.Resolve<OverviewTasksViewModel>();
     }
 }

@@ -9,7 +9,7 @@ namespace OlavTiming.Repositories
     public class UserTaskRepository : IRepository<UserTask>
     {
         private readonly string path = @".\OlavTiming";
-        private readonly string file = $"{DateTime.Today.Year}{DateTime.Today.Month}{DateTime.Today.Day}.xml";
+        private readonly string file = $"{DateTime.Today:yyyyMMdd}.xml";
 
         public UserTaskRepository()
         {
@@ -65,7 +65,7 @@ namespace OlavTiming.Repositories
         public IList<UserTask> Get(string filename)
         {
             var UserTasksList = new List<UserTask>();
-            var fileString = File.ReadAllText(Path.Combine(path, file));
+            var fileString = File.ReadAllText(Path.Combine(path, filename));
 
             if (string.IsNullOrWhiteSpace(fileString))
             {
@@ -111,6 +111,11 @@ namespace OlavTiming.Repositories
             }
 
             return UserTasksList;
+        }
+
+        public string[] GetFiles()
+        {
+            return Directory.GetFiles(path);
         }
 
         public UserTask Update(UserTask item)

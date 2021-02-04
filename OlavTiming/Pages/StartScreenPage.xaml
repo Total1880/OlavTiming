@@ -24,7 +24,8 @@
                     Grid.Column="1">
             <Button Content="New task"
                     Command="{Binding NewTaskCommand}"/>
-            <Button Content="View tasks"/>
+            <Button Content="View tasks"
+                    Command="{Binding OverviewTaskCommand}"/>
         </StackPanel>
     </Grid>
 </Page>
